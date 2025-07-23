@@ -45,4 +45,62 @@ Build a comprehensive data visualization dashboard that:
 - Report formatting and UX best practices
 
 ---
+## 📸 Dashboard Previews
 
+### 🌍 Dashboard Overview
+![Dashboard Overview](screenshots/dashboard_overview.PNG)
+
+### 📉 Yearly Trend Analysis
+![Yearly Trend](screenshots/Trend_analysis.PNG)
+
+### 🌐 Country Drilldown
+
+   Map                                      |             Chart                   
+:-------------------------------------:     | :------------------------------------:
+![](screenshots/country_map.JPG)            |  ![](screenshots/country_chart.JPG) 
+
+### 🧪 Drug Category Breakdown
+![Category Breakdown](screenshots/category_breakdown.PNG)
+
+---
+
+## 🔧 Advanced DAX Logic (Sample)
+
+This dashboard contains dynamic logic that responds to user interaction and filters.
+
+![Sample DAX](screenshots/dax_measures.jpg)
+
+📌 **DAX Highlights**:
+- Dynamic switching between metrics like Profit, Revenue, Unit Sold, etc.
+- Conditional captions using SWITCH and formatting functions.
+- Custom KPIs using `TOPN`, `SUMX`, and context-aware calculations.
+
+➡️ View more DAX logic in the [`dax-measures.md`](dax/dax_measures.tex) file.
+
+---
+
+## 🧠 Key Learnings
+
+- How to structure data for high-performance visuals
+- Building dynamic DAX for custom logic and interactivity
+- Improving dashboard storytelling and user flow
+- Publishing and sharing dashboards via Power BI Online
+
+---
+
+## 📁 Files in this Repository
+
+| File | Description |
+|------|-------------|
+| `DrugDashboard.pbix` | Main Power BI dashboard file |
+| `/screenshots/` | Contains all images used in this README |
+| `/dax/dax-measures.md` | Optional detailed DAX code & logic |
+
+---
+
+## 👤 Author
+
+**Peter Junior Nwachineke**  
+Data Analyst | MBA in International Business Management  
+📫 [peter.j.nwachineke@gmail.com](mailto:peter.j.nwachineke@gmail.com)  
+🔗 [LinkedIn](https://www.linkedin.com/in/peter-j-nwachineke-819291247/) • [Portfolio](https://github.com/PeterAnalyst)
