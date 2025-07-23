@@ -1,0 +1,118 @@
+This calculates the percentage contribution of the bottom N customers (by a chosen metric) to the overall metric, showing each bottom customer’s share while hiding others not in the bottom N.
+
+% Bottom Customer = 
+    DIVIDE(
+        (
+            VAR _BottomCustomers = TOPN('Top/Bottom Drugs Slide'[Top/Bottom Values],ALL(CustomerTable[Full Name]),[Dynamic Measures],ASC)
+        VAR _ActiveCustomers = SELECTEDVALUE(CustomerTable[Full Name],"All")
+        VAR _TotalDynamicBottom = SUMX(_BottomCustomers,[Dynamic Measures])
+
+        RETURN
+            IF(_ActiveCustomers="All",_TotalDynamicBottom,IF(_ActiveCustomers IN _BottomCustomers,[Dynamic Measures],BLANK()))
+        ),
+        [Dynamic Measures]
+    )
+
+This calculates the percentage contribution of the Top N customers (by a chosen metric) to the overall metric, showing each bottom customer’s share while hiding others not in the Top N.
+
+% Top Customer = 
+    DIVIDE(
+        (VAR _TopMeasure = TOPN('Top/Bottom Drugs Slide'[Top/Bottom Values],ALL(CustomerTable[Full Name]),[Dynamic Measures],DESC)
+        VAR _ActiveCustomer = SELECTEDVALUE(CustomerTable[Full Name],"All")
+        VAR _TotalDynamicTopN =SUMX(_TopMeasure,[Dynamic Measures])
+
+        RETURN 
+            IF(_ActiveCustomer="All",_TotalDynamicTopN,IF(_ActiveCustomer IN _TopMeasure,[Dynamic Measures],BLANK()))
+        ), 
+        [Dynamic Measures]
+        )
+
+This measure generates a dynamic title for visuals showing “Top” or “Underperforming” customers by the currently selected metric (transactions, profit, revenue, or unit sold) based on slicer selections, for consistent, automated Power BI slide titles.
+
+Title: Customers = 
+        VAR _ActiveMeasure = SELECTEDVALUE('Active Measure'[Active Measure Order])
+
+        VAR _MeasureResult = 
+            SWITCH(
+                TRUE(),
+                _ActiveMeasure=0, "#Transaction",
+                _ActiveMeasure=1, "($) Profit",
+                _ActiveMeasure=2, "($) Revenue",
+                "Unit Sold"
+            )
+        VAR _TopBottom = 
+            SELECTEDVALUE('Top/Bottom Drugs Slide'[Top/Bottom])
+
+        VAR _ActiveTopBottom = 
+            SELECTEDVALUE('Switch Customer Top/Bottom'[Switch Customer Top/Bottom Order])
+
+        VAR _Result = 
+            IF(_ActiveTopBottom =0,_TopBottom&"-Top Performing Customer by "&_MeasureResult, _TopBottom&"-UnderPerforming Customer by "&_MeasureResult)
+
+            RETURN _Result
+
+
+This measure calculates the total value of your selected metric for the top N customers (by that metric), showing either the total for all top N when no customer is selected, or each individual top customer's value while hiding non-top customers in your visuals.
+
+
+TopCustomers = 
+        VAR _TopCustomers = TOPN('Top/Bottom Drugs Slide'[Top/Bottom Values],ALL(CustomerTable[Full Name]),[Dynamic Measures],DESC)
+        VAR _ActiveCustomers = SELECTEDVALUE(CustomerTable[Full Name],"All")
+        VAR _TotalDynamicTopN = SUMX(_TopCustomers,[Dynamic Measures])
+
+        RETURN 
+                IF(_ActiveCustomers="All",_TotalDynamicTopN,IF(_ActiveCustomers IN _TopCustomers,[Dynamic Measures],BLANK()))
+
+
+This measure returns either the TopCustomers value or the Bottom Customers value depending on the user’s slicer selection (Switch Customer Top/Bottom), dynamically switching your visuals between showing top or bottom customer contributions.
+
+Value Customers = 
+        VAR _MeasuresSelected = SELECTEDVALUE('Switch Customer Top/Bottom'[Switch Customer Top/Bottom Order])
+
+        RETURN
+            IF(_MeasuresSelected =0,[TopCustomers],[Bottom Customers])
+
+
+This measure calculates the percentage of total revenue contributed by the top 2 age groups with the highest revenue.
+
+% Top2 Age Group = 
+    DIVIDE(
+        SUMX(TOPN(2,
+            ALL(CustomerTable[Age Group]),
+            [Total Revenue],DESC),
+            [Total Revenue]
+            ),
+        [Total Revenue]
+            )
+
+
+This measure calculates the percentage of total revenue contributed by the top 2 countries with the highest revenue.
+
+%Top2 Country = 
+        VAR _Top2 = TOPN(2,ALL(CustomerTable[Country]),[Total Revenue],DESC)
+        VAR _SumTop2 = SUMX(_Top2,[Total Revenue])
+
+        RETURN
+            DIVIDE(_SumTop2, [Total Revenue])
+
+
+This measure calculates the percentage of total revenue contributed by the currently selected user or segment in your report.
+
+
+%User Revenue = 
+                DIVIDE([User Revenue],
+                        [Total Revenue]
+                    )
+
+This DAX creates a calendar table with additional columns for Year, Month, Month Number, Weekday, Week Number, and Quarter to support time intelligence in your Power BI reports.
+
+Calender = 
+ADDCOLUMNS(
+    CALENDARAUTO(),
+    "Year",YEAR([Date]),
+    "Month",FORMAT([Date], "mmm"),
+    "Monthnumber", MONTH([Date]),
+    "Weekday", FORMAT([Date], "ddd"),
+    "Weeknumber", WEEKDAY([Date]),
+    "Qtr", "Q-"&QUARTER([Date])
+    )
