@@ -12,7 +12,11 @@ This personal project explores global patterns in drug consumption using Power B
 
 👉 [**Click here to view the interactive dashboard on Power BI Online**](https://app.powerbi.com/groups/me/reports/b70e0ef0-533f-4670-bc86-0e2b2a034889/ReportSectione330299b3c0a47ed2e28?experience=power-bi)
 
-*No login required. Works best on desktop.*
+*login is required. Works best on desktop.*
+
+or
+
+for a quick overview of the dashboard on youtube, click [**here**](https://youtu.be/9hee1ocrjig) 
 
 ---
 
