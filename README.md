@@ -59,7 +59,7 @@ Build a comprehensive data visualization dashboard that:
 
 ### 🌐 Country Drilldown
 
-   Map                                      |             Chart                   
+   By Map                                   |            By Chart                   
 :-------------------------------------:     | :------------------------------------:
 ![](screenshots/country_map.JPG)            |  ![](screenshots/country_chart.JPG) 
 
